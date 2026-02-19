@@ -1,0 +1,39 @@
+# /etc/ssh/sshd_config — hardened for SSH key + TOTP
+
+Port 2222
+Protocol 2
+
+# Access
+PermitRootLogin no
+MaxAuthTries 3
+MaxSessions 3
+LoginGraceTime 30
+
+# Authentication: SSH key + TOTP (PAM handles TOTP only)
+PubkeyAuthentication yes
+PasswordAuthentication no
+ChallengeResponseAuthentication yes
+AuthenticationMethods publickey,keyboard-interactive
+UsePAM yes
+
+# Disable unused auth methods
+KerberosAuthentication no
+GSSAPIAuthentication no
+HostbasedAuthentication no
+PermitEmptyPasswords no
+
+# Security
+X11Forwarding no
+AllowTcpForwarding no
+AllowAgentForwarding no
+PrintMotd no
+
+# Environment
+AcceptEnv LANG LC_*
+
+# Subsystems
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Logging
+SyslogFacility AUTH
+LogLevel VERBOSE

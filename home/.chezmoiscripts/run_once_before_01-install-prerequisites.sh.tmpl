@@ -1,0 +1,29 @@
+#!/bin/bash
+# chezmoi:template:left-delimiter="# {{" right-delimiter="}}"
+set -euo pipefail
+
+echo "==> Installing prerequisites..."
+
+# {{ if eq .chezmoi.os "linux" }}
+sudo apt-get update -qq
+sudo apt-get install -y -qq zsh curl jq git
+
+# Set zsh as default shell if not already
+if [ "$SHELL" != "$(which zsh)" ]; then
+  echo "==> Setting zsh as default shell..."
+  sudo chsh -s "$(which zsh)" "$USER"
+fi
+# {{ end }}
+
+# {{ if eq .chezmoi.os "darwin" }}
+# Install Homebrew if not present
+if ! command -v brew &>/dev/null; then
+  echo "==> Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+brew install zsh curl jq git
+# {{ end }}
+
+echo "==> Prerequisites installed."

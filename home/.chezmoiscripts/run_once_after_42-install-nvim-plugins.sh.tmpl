@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+{{ if ne .machineType "vps" -}}
+
+if ! command -v nvim &>/dev/null; then
+  echo "==> Skipping Neovim plugins (nvim not found)."
+  exit 0
+fi
+
+echo "==> Installing Neovim plugins (LazyVim)..."
+nvim --headless "+Lazy! sync" +qa 2>/dev/null
+echo "==> Installing Treesitter parsers..."
+nvim --headless "+TSUpdateSync" +qa 2>/dev/null
+echo "==> Installing Mason LSP servers..."
+nvim --headless "+MasonInstallAll" +qa 2>/dev/null || \
+  nvim --headless -c "lua require('mason-lspconfig').setup_handlers{}" +qa 2>/dev/null || true
+
+echo "==> Neovim plugins installed."
+
+{{ else -}}
+echo "==> Skipping Neovim plugins (VPS)."
+{{ end -}}

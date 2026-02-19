@@ -1,0 +1,82 @@
+linux:
+  apt:
+    common:
+      - build-essential
+      - curl
+      - wget
+      - git
+      - jq
+      - zsh
+      - tmux
+      - fzf
+      - ripgrep
+      - fd-find
+      - bat
+      - htop
+      - unzip
+      - xclip
+      - git-delta
+      - python3
+      - python3-pip
+      - python3-venv
+      - nodejs
+      - npm
+      - golang-go
+    desktop:
+      - firefox
+      - chromium-browser
+      - gnome-tweaks
+      # - dconf-editor
+      - vlc
+      # - gimp
+      # - flameshot
+  snaps:
+    desktop:
+      - name: nvim
+        classic: true
+      - name: slack
+        classic: true
+      - name: dbeaver-ce
+        classic: false
+      - name: code
+        classic: true
+  gnome_extensions:
+    desktop:
+      - 779   # Clipboard Indicator
+      - 5796  # Stopwatch
+      - 6003  # Cronomix (timer, pomodoro, alarm)
+
+darwin:
+  brews:
+    - git
+    - curl
+    - jq
+    - zsh
+    - tmux
+    - fzf
+    - ripgrep
+    - fd
+    - bat
+    - htop
+    - neovim
+    - node
+    - go
+    - python
+    - git-delta
+  casks:
+    - firefox
+    - iterm2
+    - visual-studio-code
+    - docker
+    - rectangle
+    - raycast
+    - slack
+    - dbeaver-community
+
+windows:
+  winget:
+    - Mozilla.Firefox
+    - Microsoft.VisualStudioCode
+    - Docker.DockerDesktop
+    - SlackTechnologies.Slack
+    - dbeaver.dbeaver

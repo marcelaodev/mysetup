@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euo pipefail
+
+# packages.yaml hash: {{ include ".chezmoidata/packages.yaml" | sha256sum }}
+
+{{ if and (eq .chezmoi.os "linux") (eq .machineType "desktop") -}}
+echo "==> Installing snaps..."
+
+{{ range .linux.snaps.desktop -}}
+{{ if .classic -}}
+sudo snap install {{ .name }} --classic 2>/dev/null || true
+{{ else -}}
+sudo snap install {{ .name }} 2>/dev/null || true
+{{ end -}}
+{{ end -}}
+
+echo "==> Snaps installed."
+{{ else -}}
+echo "==> Skipping snaps (not Linux desktop)."
+{{ end -}}

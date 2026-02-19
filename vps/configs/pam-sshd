@@ -1,0 +1,13 @@
+# /etc/pam.d/sshd — TOTP-only authentication (SSH key is verified by sshd)
+auth required pam_google_authenticator.so nullok
+
+# Standard account/session handling
+account required pam_nologin.so
+account include common-account
+
+session required pam_loginuid.so
+session optional pam_keyinit.so force revoke
+session include common-session
+session optional pam_motd.so motd=/run/motd.dynamic
+session optional pam_motd.so noupdate
+session optional pam_mail.so standard noenv

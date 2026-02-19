@@ -1,0 +1,36 @@
+#!/bin/bash
+set -euo pipefail
+
+{{ if and (eq .chezmoi.os "linux") (eq .machineType "desktop") -}}
+
+echo "==> Configuring DBeaver..."
+
+# Determine DBeaver config directory (snap vs standard)
+DBEAVER_DIR="$HOME/.local/share/DBeaverData/workspace6/General/.dbeaver"
+
+if [ -d "$HOME/snap/dbeaver-ce" ]; then
+  DBEAVER_DIR="$HOME/snap/dbeaver-ce/current/.local/share/DBeaverData/workspace6/General/.dbeaver"
+  # Allow DBeaver snap to access SSH keys for tunnel connections
+  sudo snap connect dbeaver-ce:ssh-keys 2>/dev/null || true
+fi
+
+if [ -f "$DBEAVER_DIR/data-sources.json" ]; then
+  echo "  DBeaver already configured. Skipping."
+  exit 0
+fi
+
+if ! command -v node &>/dev/null; then
+  echo "  Node.js not found. Skipping DBeaver setup."
+  exit 0
+fi
+
+DBEAVER_CONNECTIONS={{ (bitwarden "item" "dbeaver-connections").notes | quote }}
+
+DBEAVER_CONNECTIONS="$DBEAVER_CONNECTIONS" DBEAVER_DIR="$DBEAVER_DIR" \
+  node {{ .chezmoi.sourceDir | trimSuffix "/home" }}/browser/dbeaver-setup.js
+
+echo "==> DBeaver configured."
+
+{{ else -}}
+echo "==> Skipping DBeaver setup (not Linux desktop)."
+{{ end -}}

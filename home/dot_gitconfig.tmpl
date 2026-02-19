@@ -1,0 +1,46 @@
+[user]
+  name = {{ .name }}
+  email = {{ .email }}
+
+[core]
+  editor = nvim
+  autocrlf = input
+  pager = delta
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = true
+
+[push]
+  autoSetupRemote = true
+
+[merge]
+  conflictstyle = diff3
+
+[diff]
+  colorMoved = default
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+
+[alias]
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
+  lg = log --oneline --graph --decorate --all
+  unstage = reset HEAD --
+  last = log -1 HEAD
+
+[credential]
+  helper = store
+
+[url "git@github.com:"]
+  insteadOf = https://github.com/

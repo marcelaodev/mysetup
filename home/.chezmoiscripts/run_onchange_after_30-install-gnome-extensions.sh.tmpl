@@ -1,0 +1,45 @@
+#!/bin/bash
+set -euo pipefail
+
+# packages.yaml hash: {{ include ".chezmoidata/packages.yaml" | sha256sum }}
+
+{{ if and (eq .chezmoi.os "linux") (eq .machineType "desktop") -}}
+
+# Skip if no GNOME Shell (e.g. running via SSH or non-GNOME desktop)
+if ! command -v gnome-shell &>/dev/null; then
+  echo "==> Skipping GNOME extensions (GNOME Shell not found)."
+  exit 0
+fi
+
+echo "==> Installing GNOME extensions..."
+
+# Install gext (gnome-extensions-cli) via pipx
+# Requires --system-site-packages for PyGObject (gi) access
+if ! command -v gext &>/dev/null; then
+  sudo apt-get install -y -qq pipx python3-gi gir1.2-gtk-3.0
+  pipx install gnome-extensions-cli --system-site-packages
+  pipx ensurepath
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Pre-populate Clipboard Indicator favorites from Bitwarden
+# Must be written BEFORE the extension loads so it doesn't get overwritten
+CLIPBOARD_CACHE="$HOME/.cache/clipboard-indicator@tudmotu.com"
+mkdir -p "$CLIPBOARD_CACHE"
+
+FAVORITES={{ (bitwarden "item" "clipboard-favorites").notes | quote }}
+
+echo "$FAVORITES" | jq '[.[] | {"favorite": true, "mimetype": "text/plain;charset=utf-8", "contents": .}]' \
+  > "$CLIPBOARD_CACHE/registry.txt"
+
+echo "  Clipboard Indicator favorites loaded from Bitwarden."
+
+# Install and enable all extensions
+{{ range .linux.gnome_extensions.desktop -}}
+gext install {{ . }} || echo "  Extension {{ . }} may need manual install"
+{{ end -}}
+
+echo "==> GNOME extensions installed."
+{{ else -}}
+echo "==> Skipping GNOME extensions (not Linux desktop)."
+{{ end -}}

@@ -1,0 +1,11 @@
+{{- $machineType := promptChoiceOnce . "machineType" "Machine type" (list "desktop" "server" "vps") -}}
+{{- $name := (bitwarden "item" "github_name").notes -}}
+{{- $email := (bitwarden "item" "github_email").notes -}}
+
+[data]
+  machineType = {{ $machineType | quote }}
+  name = {{ $name | quote }}
+  email = {{ $email | quote }}
+
+[bitwarden]
+  command = "bw"

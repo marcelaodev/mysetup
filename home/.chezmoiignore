@@ -1,0 +1,19 @@
+README.md
+LICENSE
+
+{{- if ne .chezmoi.os "linux" }}
+.config/dconf/
+{{- end }}
+
+{{- if eq (dig "machineType" "" .) "server" }}
+.config/nvim/
+{{- end }}
+
+{{- if eq (dig "machineType" "" .) "vps" }}
+.config/nvim/
+{{- end }}
+
+{{- if ne .chezmoi.os "darwin" }}
+.config/karabiner/
+Library/
+{{- end }}

@@ -1,0 +1,55 @@
+#!/bin/bash
+set -euo pipefail
+
+{{ if eq .machineType "desktop" -}}
+
+echo "==> Installing Firefox extensions via enterprise policies..."
+
+{{ if eq .chezmoi.os "linux" -}}
+POLICIES_DIR="/etc/firefox/policies"
+{{ else if eq .chezmoi.os "darwin" -}}
+POLICIES_DIR="/Library/Application Support/Mozilla/policies"
+{{ end -}}
+
+sudo mkdir -p "$POLICIES_DIR"
+
+sudo tee "$POLICIES_DIR/policies.json" > /dev/null <<'EOF'
+{
+  "policies": {
+    "ExtensionSettings": {
+      "{446900e4-71c2-419f-a6a7-df9c091e268b}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi"
+      },
+      "{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/adblock-plus/latest.xpi"
+      },
+      "{beb1b1c0-32b9-47d8-bbd1-f65bed4e7c22}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/bookmarks-manager-and-viewer/latest.xpi"
+      },
+{{ if eq .chezmoi.os "linux" -}}
+      "chrome-gnome-shell@gnome.org": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/gnome-shell-integration/latest.xpi"
+      },
+{{ end -}}
+      "{d7742d87-e61d-4b78-b8a1-b469842139fa}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi"
+      },
+      "{36d78ab3-8f38-444a-baee-cb4a0cadbf98}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/youtube-playlist-duration-calc/latest.xpi"
+      }
+    }
+  }
+}
+EOF
+
+echo "==> Firefox extensions will install on next Firefox launch."
+
+{{ else -}}
+echo "==> Skipping Firefox extensions (not desktop)."
+{{ end -}}

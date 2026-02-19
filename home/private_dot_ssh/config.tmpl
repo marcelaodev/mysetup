@@ -1,0 +1,18 @@
+# SSH config — managed by chezmoi
+
+Host *
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_github
+
+{{ if or (eq .machineType "desktop") (eq .machineType "server") -}}
+Host myserver
+  HostName {{ (bitwardenFields "item" "server-config").domain.value }}
+  User marcelo
+  Port {{ (bitwardenFields "item" "server-config").sshPort.value }}
+  IdentityFile ~/.ssh/id_ed25519
+{{- end }}
