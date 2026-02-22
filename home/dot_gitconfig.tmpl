@@ -1,6 +1,9 @@
+{{- $name := (bitwarden "item" "github_name").notes -}}
+{{- $email := (bitwarden "item" "github_email").notes -}}
+
 [user]
-  name = {{ .name }}
-  email = {{ .email }}
+  name = {{ $name }}
+  email = {{ $email }}
 
 [core]
   editor = nvim
