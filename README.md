@@ -3,7 +3,7 @@
 Reproducible development environment setup. One command to go from a fresh machine to a fully configured workstation, server, or VPS.
 
 ```bash
-sudo apt update && sudo apt install -y curl && bash <(curl -fsSL https://raw.githubusercontent.com/marcelaodev/mysetup/main/bootstrap.sh)
+sudo apt install -y curl && bash <(curl -fsSL https://raw.githubusercontent.com/marcelaodev/mysetup/master/bootstrap.sh)
 ```
 
 ## Table of Contents
