@@ -35,11 +35,14 @@ linux:
       - name: nvim
         classic: true
       - name: slack
-        classic: true
+        classic: false
       - name: dbeaver-ce
         classic: false
       - name: code
         classic: true
+  npm_globals:
+    - "@anthropic-ai/claude-code"
+    - "@google/gemini-cli"
   gnome_extensions:
     desktop:
       - 779   # Clipboard Indicator

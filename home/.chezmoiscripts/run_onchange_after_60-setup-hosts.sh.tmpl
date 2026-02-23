@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+# ssh-hosts hash: {{ (bitwarden "item" "ssh-hosts").notes | sha256sum }}
+
+MARKER_BEGIN="# BEGIN mysetup"
+MARKER_END="# END mysetup"
+
+echo "==> Updating /etc/hosts..."
+
+# Build hosts entries from ssh-hosts entries that have a "host" field
+ENTRIES=$(echo '{{ (bitwarden "item" "ssh-hosts").notes }}' \
+  | jq -r '.[] | select(.host != null) | "\(.host)  \(.host)"')
+
+# Remove existing managed block
+sudo sed -i "/^${MARKER_BEGIN}/,/^${MARKER_END}/d" /etc/hosts
+
+# Append new block
+printf "\n%s\n%s\n%s\n" "$MARKER_BEGIN" "$ENTRIES" "$MARKER_END" | sudo tee -a /etc/hosts > /dev/null
+
+echo "==> /etc/hosts updated."

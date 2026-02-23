@@ -15,4 +15,14 @@ Host myserver
   User marcelo
   Port {{ (bitwardenFields "item" "server-config").sshPort.value }}
   IdentityFile ~/.ssh/id_ed25519
+
+{{ range (bitwarden "item" "ssh-hosts").notes | fromJson -}}
+Host {{ .alias }}
+  HostName {{ .host }}
+  User {{ .user }}
+{{ if .port }}  Port {{ .port | toString }}
+{{ end -}}
+{{ if .key }}  IdentityFile {{ .key }}
+{{ end }}
+{{ end -}}
 {{- end }}
