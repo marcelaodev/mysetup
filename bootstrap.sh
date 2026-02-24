@@ -94,6 +94,13 @@ fi
 echo "  Applying chezmoi..."
 chezmoi init --source="$SETUP_DIR" --apply
 
+# ---------- Phase 5: Fetch update-ip script from Bitwarden ----------
+echo ""
+echo "==> Phase 5: Fetching update-ip script from Bitwarden..."
+bw get notes "update-ip-script" --session "$BW_SESSION" > "$HOME/updateip.sh"
+chmod +x "$HOME/updateip.sh"
+echo "  Written to $HOME/updateip.sh"
+
 echo ""
 echo "========================================"
 echo "  Setup complete!"
