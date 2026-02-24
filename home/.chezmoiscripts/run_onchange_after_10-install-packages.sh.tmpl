@@ -20,11 +20,6 @@ sudo apt-get install -y -qq {{ . }}
 {{ end -}}
 {{ end -}}
 
-# npm global packages
-{{ range .linux.npm_globals -}}
-sudo npm install -g {{ . }}
-{{ end -}}
-
 # Docker Engine CE + Docker Compose
 if ! command -v docker &>/dev/null; then
   echo "==> Installing Docker Engine..."
@@ -48,11 +43,6 @@ brew install {{ . }} 2>/dev/null || true
 # Homebrew casks
 {{ range .darwin.casks -}}
 brew install --cask {{ . }} 2>/dev/null || true
-{{ end -}}
-
-# npm global packages
-{{ range .linux.npm_globals -}}
-npm install -g {{ . }}
 {{ end -}}
 {{ end -}}
 

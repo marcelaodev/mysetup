@@ -19,8 +19,6 @@ linux:
       - python3
       - python3-pip
       - python3-venv
-      - nodejs
-      - npm
       - golang-go
     desktop:
       - firefox
@@ -62,7 +60,6 @@ darwin:
     - bat
     - htop
     - neovim
-    - node
     - go
     - python
     - git-delta

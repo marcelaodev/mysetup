@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+NODE_VERSION="22"
+NVM_VERSION="v0.40.1"
+
+echo "==> Installing nvm ${NVM_VERSION}..."
+if [ ! -d "$HOME/.nvm" ]; then
+  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
+else
+  echo "  nvm already installed, skipping."
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+echo "==> Installing Node.js ${NODE_VERSION}..."
+nvm install "${NODE_VERSION}"
+nvm use "${NODE_VERSION}"
+nvm alias default "${NODE_VERSION}"
+
+echo "==> nvm and Node.js ${NODE_VERSION} installed (default set)."

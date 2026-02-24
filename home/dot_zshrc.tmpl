@@ -62,6 +62,11 @@ bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 
+# ---------- nvm ----------
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 # ---------- fzf ----------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
