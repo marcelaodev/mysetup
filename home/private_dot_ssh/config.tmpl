@@ -20,9 +20,9 @@ Host myserver
 Host {{ .alias }}
   HostName {{ .host }}
   User {{ .user }}
-{{ if .port }}  Port {{ .port | toString }}
+{{ if (index . "port") }}  Port {{ .port | toString }}
 {{ end -}}
-{{ if .key }}  IdentityFile {{ .key }}
+{{ if ( index . "key") }}  IdentityFile {{ .key }}
 {{ end }}
 {{ end -}}
 {{- end }}

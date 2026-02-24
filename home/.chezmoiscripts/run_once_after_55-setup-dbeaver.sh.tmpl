@@ -26,7 +26,7 @@ fi
 
 DBEAVER_CONNECTIONS={{ (bitwarden "item" "dbeaver-connections").notes | quote }}
 
-DBEAVER_CONNECTIONS="$DBEAVER_CONNECTIONS" DBEAVER_DIR="$DBEAVER_DIR" \
+DBEAVER_CONNECTIONS=$DBEAVER_CONNECTIONS DBEAVER_DIR="$DBEAVER_DIR" \
   node {{ .chezmoi.sourceDir | trimSuffix "/home" }}/browser/dbeaver-setup.js
 
 echo "==> DBeaver configured."

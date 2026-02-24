@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# packages.yaml hash: {{ include "home/.chezmoidata/packages.yaml" | sha256sum }}
+# packages.yaml hash: {{ include ".chezmoidata/packages.yaml" | sha256sum }}
 
 echo "==> Installing packages..."
 

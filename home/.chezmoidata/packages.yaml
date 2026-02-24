@@ -37,7 +37,7 @@ linux:
       - name: slack
         classic: false
       - name: dbeaver-ce
-        classic: false
+        classic: true
       - name: code
         classic: true
   npm_globals:
